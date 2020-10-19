@@ -1,0 +1,29 @@
+{
+    "ratio high > low (type1)": {
+        "boominess": 0.6875,
+        "brightness": 1.0,
+        "depth": 0.875,
+        "hardness": 0.5,
+        "roughness": 0.875,
+        "sharpness": 0.6875,
+        "warmth": 0.75
+    },
+    "ratio high > mid (type2)": {
+        "boominess": 0.625,
+        "brightness": 1.0,
+        "depth": 0.875,
+        "hardness": 0.75,
+        "roughness": 0.6875,
+        "sharpness": 0.8125,
+        "warmth": 0.5625
+    },
+    "ratio mid > low (type3)": {
+        "boominess": 0.8125,
+        "brightness": 1.0,
+        "depth": 0.8125,
+        "hardness": 0.5625,
+        "roughness": 0.875,
+        "sharpness": 0.5625,
+        "warmth": 0.5625
+    }
+}
