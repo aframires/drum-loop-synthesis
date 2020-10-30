@@ -7,7 +7,7 @@
 This repository contains the source code for loop synthesis
 <h3>Installation</h3>
 To install, clone the repository and use <pre><code>pip install -r requirements.txt </code></pre> to install the packages required.
-The pretrained <a href="https://drive.google.com/file/d/1Mmg3cq5CYl-yOePHhiFWInizlr3tMPEE/view?usp=sharing" rel="nofollow"> model weights</a> can be downloaded along with the <a href="https://drive.google.com/file/d/1Mmg3cq5CYl-yOePHhiFWInizlr3tMPEE/view?usp=sharing" rel="nofollow"> validation hdf5 file</a>. The path to the unzipped model weights and the validation file need to be set in the command line arguments for the main function.
+The pretrained <a href="https://drive.google.com/file/d/1aak1krpGQWIWesI0gOVm3WZ0XHfYW7qy/view?usp=sharing" rel="nofollow"> model weights</a> can be downloaded along with the <a href="https://drive.google.com/file/d/1Tj29ktt4KDLNmqhEaxhvUuF-qM4LwO37/view?usp=sharing" rel="nofollow"> validation hdf5 file</a>. The path to the unzipped model weights and the validation file need to be set in the command line arguments for the main function.
 
  The main code is in the *main.py* file.  
  <pre><code>
