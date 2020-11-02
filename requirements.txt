@@ -6,6 +6,8 @@ pandas==0.20.3
 Cython
 scipy==1.1.0
 SoundFile==0.10.1
-tensorflow==1.12.0
+tensorflow==1.15.0
 matplotlib
 tqdm
+tf_slim==1.1
+apache-beam

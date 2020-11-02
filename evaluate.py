@@ -1,26 +1,31 @@
 import os
-
+import subprocess
 import argparse
+
 from model import Model
+
 
 def main(config):
     model = Model(config)
     model.test_model()
+
     command = "ls --color=never -d {} > {}".format(os.path.join(config.output_dir, 'gt_*'), os.path.join(config.output_dir, 'gt.cvs'))
     os.system(command)
     command = "ls --color=never -d {} > {}".format(os.path.join(config.output_dir, 'output_*_{}.wav'.format(config.model)), \
         os.path.join(config.output_dir, 'output_{}.cvs'.format(config.model)))
     os.system(command)
 
-    command = "python -m FAD_evaluation.frechet_audio_distance.create_embeddings_main --input_files {} --stats {}".format(os.path.join(config.output_dir, 'gt.cvs'),\
-        os.path.join(config.output_dir, 'gt_stats'))
-    os.system(command)
+    os.chdir('./FAD_evaluation') 
 
-    command = "python -m FAD_evaluation.frechet_audio_distance.create_embeddings_main --input_files {} --stats {}".format(os.path.join(config.output_dir,\
+    command = "python -m frechet_audio_distance.create_embeddings_main --input_files {} --stats {}".format(os.path.join(config.output_dir, 'gt.cvs'),\
+        os.path.join(config.output_dir, 'gt_stats'))
+
+
+    command = "python -m frechet_audio_distance.create_embeddings_main --input_files {} --stats {}".format(os.path.join(config.output_dir,\
      'output_{}.cvs'.format(config.model)),os.path.join(config.output_dir, 'gt_stats'))
     os.system(command)
         
-    command = "python -m FAD_evaluation.frechet_audio_distance.create_embeddings_main --input_files {} --stats {}".format(os.path.join(config.output_dir, 'gt.cvs'),\
+    command = "python -m frechet_audio_distance.create_embeddings_main --input_files {} --stats {}".format(os.path.join(config.output_dir, 'gt.cvs'),\
         os.path.join(config.output_dir, '{}_stats'.format(config.model)))
     os.system(command)
 
@@ -43,6 +48,12 @@ if __name__ == '__main__':
     config = parser.parse_args()
 
     assert config.model in ["multi_noenv", "multi", "wavspec", "wav", "spec"]
+
+    config.log_dir = os.path.abspath(config.log_dir)
+
+    config.val_file = os.path.abspath(config.val_file)
+
+    config.output_dir = os.path.abspath(config.output_dir)
 
     if config.model == 'multi_noenv':
         config.log_dir = os.path.join(config.log_dir,'log_multi_noenv/')

@@ -33,7 +33,7 @@ import scipy.io.wavfile
 import scipy.spatial.distance
 import tensorflow.compat.v1 as tf
 
-from FAD_evaluation.frechet_audio_distance.audioset_model import AudioSetModel
+from frechet_audio_distance.audioset_model import AudioSetModel
 
 
 def _int64_feature(value):
