@@ -61,4 +61,15 @@ class Model(object):
                 sf.write(os.path.join(self.config.output_dir,'gt_{}_{}.wav'.format(batch_count, count)), out_audios[count],self.config.fs)
             utils.progress(batch_count, total_count)
 
+    def use_model(self, pattern, hpcp, features_kick, features_snare, features_hh):
+        sess = tf.Session()
+        self.load_model(sess, log_dir = self.config.log_dir)
+        pattern = np.repeat(pattern, self.config.batch_size, 0)
+        features = np.concatenate((np.array(hpcp), np.array(features_kick), np.array(features_snare), np.array(features_hh))) 
+        features = np.repeat(np.expand_dims(features, 0), self.config.batch_size, 0)
+        features = np.concatenate((features[:,:19], features[:,21:]), axis = 1)
+        feed_dict = {self.input_placeholder: pattern, self.cond_placeholder: features, self.is_train: False}
+        output_full = sess.run(self.output_wav, feed_dict=feed_dict)
+        output_file = os.path.join(self.config.output_dir,'output_{}.wav'.format(self.config.model))
+        sf.write(output_file, np.clip(output_full[0],-1,1), self.config.fs)
 
