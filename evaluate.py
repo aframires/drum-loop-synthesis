@@ -4,8 +4,8 @@ import argparse
 from model import Model
 
 def main(config):
-    # model = Model(config)
-    # model.test_model()
+    model = Model(config)
+    model.test_model()
     command = "ls --color=never -d {} > {}".format(os.path.join(config.output_dir, 'gt_*'), os.path.join(config.output_dir, 'gt.cvs'))
     os.system(command)
     command = "ls --color=never -d {} > {}".format(os.path.join(config.output_dir, 'output_*_{}.wav'.format(config.model)), \
