@@ -58,6 +58,6 @@ def analysis_function(loop,sampleRate):
     features_snare = timbral_models.timbral_extractor("analysis/bpf_" + loop_basename, clip_output=True)
     features_hh = timbral_models.timbral_extractor("analysis/hpf_" + loop_basename, clip_output=True)
 
-    hpcp = file_to_hpcp(loop)
+    hpcp = file_to_hpcp(audio_file())
 
     return pattern,hpcp,features_kick,features_snare,features_hh
