@@ -1,7 +1,7 @@
 from ADTLib import ADT
 import essentia.standard as es
 import numpy as np
-import soundfiles as sf
+import soundfile as sf
 import timbral_models
 
 def file_to_hpcp(loop):
