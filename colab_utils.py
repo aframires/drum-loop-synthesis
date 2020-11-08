@@ -1,5 +1,6 @@
 from ADTLib import ADT
-import essentia as es
+import essentia.standard as es
+import essentia as e
 import numpy as np
 import soundfile as sf
 import timbral_models
@@ -7,19 +8,19 @@ import timbral_models
 import ntpath
 
 def file_to_hpcp(loop):
-    loop = es.array(loop)
+    loop = e.array(loop)
 
-    windowing = es.standard.Windowing(type='blackmanharris62')
-    spectrum = es.standard.Spectrum()
-    spectral_peaks = es.standard.SpectralPeaks(orderBy='magnitude',
+    windowing = es.Windowing(type='blackmanharris62')
+    spectrum = es.Spectrum()
+    spectral_peaks = es.SpectralPeaks(orderBy='magnitude',
                                     magnitudeThreshold=0.001,
                                     maxPeaks=20,
                                     minFrequency=20,
                                     maxFrequency=8000)
-    hpcp = es.standard.HPCP(maxFrequency=8000)
+    hpcp = es.HPCP(maxFrequency=8000)
     spec_group = []
     hpcp_group = []
-    for frame in es.standard.FrameGenerator(loop,frameSize=1024,hopSize=512):
+    for frame in es.FrameGenerator(loop,frameSize=1024,hopSize=512):
         windowed = windowing(frame)
         fft = spectrum(windowed)
         frequencies, magnitudes = spectral_peaks(fft)
@@ -35,28 +36,28 @@ def file_to_hpcp(loop):
     return mean_hpcp
 
 def analysis_function(loop,sampleRate):
-  lp_filter = es.standard.LowPass(cutoffFrequency=90,sampleRate=sampleRate)
-  bp_filter = es.standard.BandPass(bandwidth=100 ,cutoffFrequency=280,sampleRate=sampleRate)
-  hp_filter = es.standard.HighPass(cutoffFrequency=9000,sampleRate=sampleRate)
+    lp_filter = es.LowPass(cutoffFrequency=90,sampleRate=sampleRate)
+    bp_filter = es.BandPass(bandwidth=100 ,cutoffFrequency=280,sampleRate=sampleRate)
+    hp_filter = es.HighPass(cutoffFrequency=9000,sampleRate=sampleRate)
 
-  [_, pattern] = ADT([loop], output_act='yes', tab='no', save_dir="analysis/")
+    [_, pattern] = ADT([loop], output_act='yes', tab='no', save_dir="analysis/")
 
-  audio_file=es.standard.MonoLoader(filename=loop,sampleRate=sampleRate)
+    audio_file=es.MonoLoader(filename=loop,sampleRate=sampleRate)
 
 
-  loop_basename = ntpath.basename(loop)
-  lpf_audio = lp_filter(audio_file())
-  bpf_audio = bp_filter(audio_file())
-  hpf_audio = hp_filter(audio_file())
+    loop_basename = ntpath.basename(loop)
+    lpf_audio = lp_filter(audio_file())
+    bpf_audio = bp_filter(audio_file())
+    hpf_audio = hp_filter(audio_file())
 
-  sf.write("analysis/lpf_" + loop_basename, lpf_audio, sampleRate)
-  sf.write("analysis/bpf_" + loop_basename, bpf_audio, sampleRate)
-  sf.write("analysis/hpf_" + loop_basename, hpf_audio, sampleRate)
+    sf.write("analysis/lpf_" + loop_basename, lpf_audio, sampleRate)
+    sf.write("analysis/bpf_" + loop_basename, bpf_audio, sampleRate)
+    sf.write("analysis/hpf_" + loop_basename, hpf_audio, sampleRate)
 
-  features_kick = timbral_models.timbral_extractor("analysis/lpf_" + loop_basename, clip_output=True)
-  features_snare = timbral_models.timbral_extractor("analysis/bpf_" + loop_basename, clip_output=True)
-  features_hh = timbral_models.timbral_extractor("analysis/hpf_" + loop_basename, clip_output=True)
-  
-  hpcp = file_to_hpcp(loop)
+    features_kick = timbral_models.timbral_extractor("analysis/lpf_" + loop_basename, clip_output=True)
+    features_snare = timbral_models.timbral_extractor("analysis/bpf_" + loop_basename, clip_output=True)
+    features_hh = timbral_models.timbral_extractor("analysis/hpf_" + loop_basename, clip_output=True)
 
-  return pattern,hpcp,features_kick,features_snare,features_hh
+    hpcp = file_to_hpcp(loop)
+
+    return pattern,hpcp,features_kick,features_snare,features_hh
