@@ -4,6 +4,8 @@ import numpy as np
 import soundfile as sf
 import timbral_models
 
+import ntpath
+
 def file_to_hpcp(loop):
     loop = es.array(loop)
 
@@ -41,17 +43,19 @@ def analysis_function(loop,sampleRate):
 
   audio_file=es.MonoLoader(filename=loop,sampleRate=sampleRate)
 
+
+  loop_basename = ntpath.basename(loop)
   lpf_audio = lp_filter(audio_file())
   bpf_audio = bp_filter(audio_file())
   hpf_audio = hp_filter(audio_file())
 
-  sf.write("audio_analysis/lpf_" + loop, lpf_audio, sampleRate)
-  sf.write("audio_analysis/bpf_" + loop, bpf_audio, sampleRate)
-  sf.write("audio_analysis/hpf_" + loop, hpf_audio, sampleRate)
+  sf.write("analysis/lpf_" + loop_basename, lpf_audio, sampleRate)
+  sf.write("analysis/bpf_" + loop_basename, bpf_audio, sampleRate)
+  sf.write("analysis/hpf_" + loop_basename, hpf_audio, sampleRate)
 
-  features_kick = timbral_models.timbral_extractor("audio_analysis/lpf_" + loop, clip_output=True)
-  features_snare = timbral_models.timbral_extractor("audio_analysis/bpf_" + loop, clip_output=True)
-  features_hh = timbral_models.timbral_extractor("audio_analysis/hpf_" + loop, clip_output=True)
+  features_kick = timbral_models.timbral_extractor("analysis/lpf_" + loop_basename, clip_output=True)
+  features_snare = timbral_models.timbral_extractor("analysis/bpf_" + loop_basename, clip_output=True)
+  features_hh = timbral_models.timbral_extractor("analysis/hpf_" + loop_basename, clip_output=True)
   
   hpcp = file_to_hpcp(loop)
 
