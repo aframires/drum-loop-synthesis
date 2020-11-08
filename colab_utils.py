@@ -1,5 +1,5 @@
 from ADTLib import ADT
-import essentia.standard as es
+import essentia as es
 import numpy as np
 import soundfile as sf
 import timbral_models
@@ -9,17 +9,17 @@ import ntpath
 def file_to_hpcp(loop):
     loop = es.array(loop)
 
-    windowing = es.Windowing(type='blackmanharris62')
-    spectrum = es.Spectrum()
-    spectral_peaks = es.SpectralPeaks(orderBy='magnitude',
+    windowing = es.standard.Windowing(type='blackmanharris62')
+    spectrum = es.standard.Spectrum()
+    spectral_peaks = es.standard.SpectralPeaks(orderBy='magnitude',
                                     magnitudeThreshold=0.001,
                                     maxPeaks=20,
                                     minFrequency=20,
                                     maxFrequency=8000)
-    hpcp = es.HPCP(maxFrequency=8000)
+    hpcp = es.standard.HPCP(maxFrequency=8000)
     spec_group = []
     hpcp_group = []
-    for frame in es.FrameGenerator(loop,frameSize=1024,hopSize=512):
+    for frame in es.standard.FrameGenerator(loop,frameSize=1024,hopSize=512):
         windowed = windowing(frame)
         fft = spectrum(windowed)
         frequencies, magnitudes = spectral_peaks(fft)
