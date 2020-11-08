@@ -35,13 +35,13 @@ def file_to_hpcp(loop):
     return mean_hpcp
 
 def analysis_function(loop,sampleRate):
-  lp_filter = es.LowPass(cutoffFrequency=90,sampleRate=sampleRate)
-  bp_filter = es.BandPass(bandwidth=100 ,cutoffFrequency=280,sampleRate=sampleRate)
-  hp_filter = es.HighPass(cutoffFrequency=9000,sampleRate=sampleRate)
+  lp_filter = es.standard.LowPass(cutoffFrequency=90,sampleRate=sampleRate)
+  bp_filter = es.standard.BandPass(bandwidth=100 ,cutoffFrequency=280,sampleRate=sampleRate)
+  hp_filter = es.standard.HighPass(cutoffFrequency=9000,sampleRate=sampleRate)
 
   [_, pattern] = ADT([loop], output_act='yes', tab='no', save_dir="analysis/")
 
-  audio_file=es.MonoLoader(filename=loop,sampleRate=sampleRate)
+  audio_file=es.standard.MonoLoader(filename=loop,sampleRate=sampleRate)
 
 
   loop_basename = ntpath.basename(loop)
