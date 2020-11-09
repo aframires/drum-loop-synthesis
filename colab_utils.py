@@ -5,8 +5,9 @@ import numpy as np
 import soundfile as sf
 import timbral_models
 from scipy import signal
-import math
+from scipy.interpolate import interp1d
 
+import math
 import ntpath
 import os
 
@@ -90,12 +91,16 @@ def analysis_function(loop,sampleRate):
 
     hpcp = file_to_hpcp(audio_file())
 
+    time_audio = np.linspace(0, float(29538)/16000, 29538)
+    time_act = np.linspace(0, float(29538)/16000, 159)
+    final_pattern = np.clip(np.array([interp1d(time_act, pattern[0,:,0])(time_audio), interp1d(time_act, pattern[1,:,0])(time_audio), interp1d(time_act, pattern[2,:,0])(time_audio)]).T ,0.0,1.0)
+
     #[69.57681, 67.66642, 80.19115, 71.689445, 61.422714, 100.0, 71.406494]
     #[32.789112, 1.0, 85.24432, 67.71172, 2.491137, 0.5797179, 87.83693]
     #[69.738235, 71.95989, 82.336105, 75.53646, 71.00043, 100.0, 81.7323]
 
 
-    return pattern,hpcp,features_kick,features_snare,features_hh
+    return final_pattern,hpcp,features_kick,features_snare,features_hh
 
 def generate_gaussians(pattern):
     bar_len = 29538
