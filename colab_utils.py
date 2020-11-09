@@ -57,11 +57,43 @@ def analysis_function(loop,sampleRate):
     sf.write("analysis/bpf_" + loop_basename, bpf_audio, sampleRate)
     sf.write("analysis/hpf_" + loop_basename, hpf_audio, sampleRate)
 
-    features_kick = timbral_models.timbral_extractor("analysis/lpf_" + loop_basename, clip_output=True)
-    features_snare = timbral_models.timbral_extractor("analysis/bpf_" + loop_basename, clip_output=True)
-    features_hh = timbral_models.timbral_extractor("analysis/hpf_" + loop_basename, clip_output=True)
+    unordered_kick_features = timbral_models.timbral_extractor("analysis/lpf_" + loop_basename, clip_output=True)
+    unordered_snare_features = timbral_models.timbral_extractor("analysis/bpf_" + loop_basename, clip_output=True)
+    unordered_hh_features = timbral_models.timbral_extractor("analysis/hpf_" + loop_basename, clip_output=True)
+
+    features_kick = [   unordered_kick_features['warmth']       / 69.57681,
+                        unordered_kick_features['roughness']    / 67.66642,
+                        unordered_kick_features['brightness']   / 80.19115,
+                        unordered_kick_features['hardness']     / 71.689445,
+                        unordered_kick_features['boominess']    / 61.422714,
+                        unordered_kick_features['depth']        / 100.0,
+                        unordered_kick_features['sharpness']    / 71.406494
+                    ]    
+
+    features_snare = [  unordered_kick_features['warmth']       / 32.789112,
+                        unordered_kick_features['roughness']    / 1.0,
+                        unordered_kick_features['brightness']   / 85.24432,
+                        unordered_kick_features['hardness']     / 67.71172,
+                        unordered_kick_features['boominess']    / 2.491137,
+                        unordered_kick_features['depth']        / 0.5797179,
+                        unordered_kick_features['sharpness']    / 87.83693
+                    ]    
+
+    features_hh =   [   unordered_kick_features['warmth']       / 69.738235,
+                        unordered_kick_features['roughness']    / 71.95989,
+                        unordered_kick_features['brightness']   / 82.336105,
+                        unordered_kick_features['hardness']     / 75.53646,
+                        unordered_kick_features['boominess']    / 71.00043,
+                        unordered_kick_features['depth']        / 100.0,
+                        unordered_kick_features['sharpness']    / 81.7323
+                    ]    
 
     hpcp = file_to_hpcp(audio_file())
+
+    #[69.57681, 67.66642, 80.19115, 71.689445, 61.422714, 100.0, 71.406494]
+    #[32.789112, 1.0, 85.24432, 67.71172, 2.491137, 0.5797179, 87.83693]
+    #[69.738235, 71.95989, 82.336105, 75.53646, 71.00043, 100.0, 81.7323]
+
 
     return pattern,hpcp,features_kick,features_snare,features_hh
 
