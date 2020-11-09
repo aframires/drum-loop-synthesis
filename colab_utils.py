@@ -4,8 +4,11 @@ import essentia as e
 import numpy as np
 import soundfile as sf
 import timbral_models
+from scipy import signal
+import math
 
 import ntpath
+import os
 
 def file_to_hpcp(loop):
     loop = e.array(loop)
@@ -61,3 +64,86 @@ def analysis_function(loop,sampleRate):
     hpcp = file_to_hpcp(audio_file())
 
     return pattern,hpcp,features_kick,features_snare,features_hh
+
+def generate_gaussians(pattern):
+    bar_len = 29538
+    gauss_std =100
+    gauss_window = 1001
+    gauss = signal.gaussian(gauss_window,gauss_std)
+    gauss_patterns = []
+    for inst_pattern in pattern:
+        gauss_pat = np.zeros(bar_len)
+        for idx, val in enumerate(inst_pattern):
+            if val != 0:
+                center_pos = math.floor(idx * bar_len/16)
+                if idx != 0:
+                    left_pos = center_pos - math.ceil(gauss_window)
+                    gauss_pat[left_pos:left_pos + gauss_window] = val * gauss
+                else:
+                    gauss_pat[0:math.ceil(gauss_window/2)] = val * gauss[math.floor(gauss_window/2):]
+        gauss_patterns.append(gauss_pat)
+    return gauss_patterns
+
+class Config:
+    def __init__(self,selected_model):
+        self.model = selected_model
+        self.log_dir = "/content/drum-loop-synthesis/models/"
+        self.val_file = ""
+        self.output_dir = "/content/drum-loop-synthesis/output/" 
+        if self.model == 'multi_noenv':
+            self.log_dir = os.path.join(self.log_dir,'log_multi_noenv/')
+            self.output_features = 1
+            self.rhyfeats = 3
+            self.encoder_layers = 10
+            self.sample_len = 29538
+        if self.model == 'multi':
+            self.log_dir = os.path.join(self.log_dir,'log_multi/')
+            self.output_features = 1
+            self.rhyfeats = 4
+            self.encoder_layers = 10
+            self.sample_len = 29538
+        if self.model == 'wavspec':
+            self.log_dir = os.path.join(self.log_dir,'log_wav/')
+            self.output_features = 1
+            self.rhyfeats = 4
+            self.encoder_layers = 10
+            self.sample_len = 29538
+        if self.model == 'wav':
+            self.log_dir = os.path.join(self.log_dir,'log_wavonly/')
+            self.output_features = 1
+            self.rhyfeats = 4
+            self.encoder_layers = 10
+            self.sample_len = 29538
+        if self.model == 'spec':
+            self.log_dir = os.path.join(self.log_dir,'log_stft_old/')
+            self.output_features = 513
+            self.rhyfeats = 4
+            self.encoder_layers = 6
+            self.sample_len = 159
+
+
+        self.num_epochs = 2500
+        self.batch_size = 16
+        self.filter_len = 5
+        self.filters = 32
+        self.fs = 16000
+        
+        self.max_phr_len = 159
+        self.n_fft = 1024
+        self.hop_size = 180
+        self.input_features = 31
+
+        self.kernel_size = 2
+        self.num_filters = 100
+        self.skip_filters = 240
+        self.first_conv = 10
+        self.dilation_rates = [1,2,4,1,2,4,1,2,4,1,2,4]
+
+
+
+def generate(selected_model, pattern, hpcp, features_kick, features_snare, features_hh):
+    from model import Model
+    
+    config = Config(selected_model)
+    model = Model(config)
+    model.use_model(pattern, hpcp, features_kick, features_snare, features_kick)
