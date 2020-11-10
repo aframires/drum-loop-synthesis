@@ -49,6 +49,7 @@ def analysis_function(loop,sampleRate):
     time_audio = np.linspace(0, float(29538)/16000, 29538)
     time_act = np.linspace(0, float(29538)/16000, 160)
     final_pattern = np.clip(np.array([interp1d(time_act, pattern[0,:,0])(time_audio), interp1d(time_act, pattern[1,:,0])(time_audio), interp1d(time_act, pattern[2,:,0])(time_audio)]).T ,0.0,1.0)
+    final_pattern = final_pattern/final_pattern.max(axis=0)
     final_pattern = np.expand_dims(final_pattern,0)
     audio_file=es.MonoLoader(filename=loop,sampleRate=sampleRate)
 
