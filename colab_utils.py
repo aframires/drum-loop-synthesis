@@ -45,8 +45,13 @@ def analysis_function(loop,sampleRate):
     hp_filter = es.HighPass(cutoffFrequency=9000,sampleRate=sampleRate)
 
     [_, pattern] = ADT([loop], output_act='yes', tab='no', save_dir="analysis/")
+    pattern = np.array(pattern)[0]
+    time_audio = np.linspace(0, float(29538)/16000, 29538)
+    time_act = np.linspace(0, float(29538)/16000, 160)
+    final_pattern = np.clip(np.array([interp1d(time_act, pattern[0,:,0])(time_audio), interp1d(time_act, pattern[1,:,0])(time_audio), interp1d(time_act, pattern[2,:,0])(time_audio)]).T ,0.0,1.0)
 
     audio_file=es.MonoLoader(filename=loop,sampleRate=sampleRate)
+
 
 
     loop_basename = ntpath.basename(loop)
@@ -91,9 +96,6 @@ def analysis_function(loop,sampleRate):
 
     hpcp = file_to_hpcp(audio_file())
 
-    time_audio = np.linspace(0, float(29538)/16000, 29538)
-    time_act = np.linspace(0, float(29538)/16000, 159)
-    final_pattern = np.clip(np.array([interp1d(time_act, pattern[0,:,0])(time_audio), interp1d(time_act, pattern[1,:,0])(time_audio), interp1d(time_act, pattern[2,:,0])(time_audio)]).T ,0.0,1.0)
 
     #[69.57681, 67.66642, 80.19115, 71.689445, 61.422714, 100.0, 71.406494]
     #[32.789112, 1.0, 85.24432, 67.71172, 2.491137, 0.5797179, 87.83693]
