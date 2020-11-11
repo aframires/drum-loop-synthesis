@@ -103,7 +103,7 @@ def analysis_function(loop,sampleRate=16000):
     #[69.738235, 71.95989, 82.336105, 75.53646, 71.00043, 100.0, 81.7323]
 
 
-    return final_pattern,hpcp,features_kick,features_snare,features_hh
+    return final_pattern,hpcp,features_kick,features_snare,np.clip(features_hh,0,1)
 
 def generate_gaussians(pattern):
     bar_len = 29538
