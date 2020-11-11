@@ -41,7 +41,7 @@ def file_to_hpcp(loop):
 
 def analysis_function(loop,sampleRate=16000):
     lp_filter = es.LowPass(cutoffFrequency=90,sampleRate=sampleRate)
-    bp_filter = es.BandPass(bandwidth=100 ,cutoffFrequency=280,sampleRate=sampleRate)
+    bp_filter = es.BandPass(bandwidth=20 ,cutoffFrequency=280,sampleRate=sampleRate)
     hp_filter = es.HighPass(cutoffFrequency=9000,sampleRate=sampleRate)
 
     [_, pattern] = ADT([loop], output_act='yes', tab='no', save_dir="analysis/")
