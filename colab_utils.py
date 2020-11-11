@@ -122,7 +122,8 @@ def generate_gaussians(pattern):
                 else:
                     gauss_pat[0:math.ceil(gauss_window/2)] = val * gauss[math.floor(gauss_window/2):]
         gauss_patterns.append(gauss_pat)
-    return gauss_patterns
+    return  np.expand_dims(np.array(gauss_patterns).T,0)
+
 
 class Config:
     def __init__(self,selected_model):
@@ -181,7 +182,7 @@ class Config:
 
 
 
-def generate(selected_model, pattern, hpcp, features_kick, features_snare, features_hh):
+def generate(pattern, hpcp, features_kick, features_snare, features_hh,selected_model='multi_noenv'):
     from model import Model
     
     config = Config(selected_model)
