@@ -77,22 +77,22 @@ def analysis_function(loop,sampleRate=16000):
                         unordered_kick_features['sharpness']    / 81.7323,
                     ]    
 
-    features_snare = [  unordered_kick_features['warmth']       / 69.57681,
-                        unordered_kick_features['roughness']    / 67.66642,
-                        unordered_kick_features['brightness']   / 80.19115,
-                        unordered_kick_features['hardness']     / 71.689445,
-                        unordered_kick_features['boominess']    / 61.422714,
-                        unordered_kick_features['depth']        / 100.0,
-                        unordered_kick_features['sharpness']    / 71.406494
+    features_snare = [  unordered_snare_features['warmth']       / 69.57681,
+                        unordered_snare_features['roughness']    / 67.66642,
+                        unordered_snare_features['brightness']   / 80.19115,
+                        unordered_snare_features['hardness']     / 71.689445,
+                        unordered_snare_features['boominess']    / 61.422714,
+                        unordered_snare_features['depth']        / 100.0,
+                        unordered_snare_features['sharpness']    / 71.406494
                     ]    
 
-    features_hh =   [   unordered_kick_features['warmth']       / 32.789112,
-                        unordered_kick_features['roughness']    / 1.0,
-                        unordered_kick_features['brightness']   / 85.24432,
-                        unordered_kick_features['hardness']     / 67.71172,
-                        unordered_kick_features['boominess']    / 2.491137,
-                        unordered_kick_features['depth']        / 0.5797179,
-                        unordered_kick_features['sharpness']    / 87.83693
+    features_hh =   [   unordered_hh_features['warmth']       / 32.789112,
+                        unordered_hh_features['roughness']    / 1.0,
+                        unordered_hh_features['brightness']   / 85.24432,
+                        unordered_hh_features['hardness']     / 67.71172,
+                        unordered_hh_features['boominess']    / 2.491137,
+                        unordered_hh_features['depth']        / 0.5797179,
+                        unordered_hh_features['sharpness']    / 87.83693
                     ]    
 
     hpcp = file_to_hpcp(audio_file())
