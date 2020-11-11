@@ -39,7 +39,7 @@ def file_to_hpcp(loop):
 
     return mean_hpcp
 
-def analysis_function(loop,sampleRate):
+def analysis_function(loop,sampleRate=16000):
     lp_filter = es.LowPass(cutoffFrequency=90,sampleRate=sampleRate)
     bp_filter = es.BandPass(bandwidth=100 ,cutoffFrequency=280,sampleRate=sampleRate)
     hp_filter = es.HighPass(cutoffFrequency=9000,sampleRate=sampleRate)
