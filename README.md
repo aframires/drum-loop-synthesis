@@ -7,7 +7,7 @@
 
 <h2>Music Technology Group, Universitat Pompeu Fabra, Barcelona</h2>
 
-This repository contains the source code for loop synthesis. Audio examples can be found in the project [website](https://aframires.github.io/drum-loop-synthesis/). An interactive notebook can be found in [Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aframires/drum-loop-synthesis/blob/main/LOOPNET.ipynb)
+This repository contains the source code for loop synthesis. Audio examples can be found in the project [website](https://aframires.github.io/drum-loop-synthesis/). An interactive notebook can be found in [here](https://colab.research.google.com/github/aframires/drum-loop-synthesis/blob/main/LOOPNET.ipynb).
 
 
 <h3>Installation</h3>
