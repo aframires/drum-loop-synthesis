@@ -1,10 +1,15 @@
-<h1>LOOPNET: MUSICAL LOOP SYNTHESIS CONDITIONED ON INTUITIVE MUSICALPARAMETERS</h1>
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aframires/drum-loop-synthesis/blob/main/LOOPNET.ipynb)
+
+
+<h1>LOOPNET: MUSICAL LOOP SYNTHESIS CONDITIONED ON INTUITIVE MUSICAL PARAMETERS</h1>
 
 <h2>Pritish Chandna, António Ramires, Xavier Serra, Emilia Gómez</h2>
 
 <h2>Music Technology Group, Universitat Pompeu Fabra, Barcelona</h2>
 
-This repository contains the source code for loop synthesis
+This repository contains the source code for loop synthesis. Audio examples can be found in the project [website](https://aframires.github.io/drum-loop-synthesis/). An interactive notebook can be found in [Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aframires/drum-loop-synthesis/blob/main/LOOPNET.ipynb)
+
+
 <h3>Installation</h3>
 To install, clone the repository and use <pre><code>pip install -r requirements.txt </code></pre> to install the packages required.
 The pretrained <a href="https://drive.google.com/drive/folders/1iAf4MSLH5yQblWGYkdxBi0NbFpEArJkb?usp=sharing" rel="nofollow"> model weights</a> can be downloaded along with the <a href="https://drive.google.com/file/d/1Tj29ktt4KDLNmqhEaxhvUuF-qM4LwO37/view?usp=sharing" rel="nofollow"> validation hdf5 file</a>. The path to the unzipped model weights and the validation file need to be set in the command line arguments for the main function.
