@@ -5,7 +5,7 @@ from model import Model
 
 def main(config):
     model = Model(config)
-    model.test_model()
+    model.mix_model()
     
         
     
@@ -15,13 +15,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # Model configuration.
-    parser.add_argument('--model', type=str, default="multi_noenv", help='Models to use, must be in multi_noenv, multi, wavespec, wav or spec')
+    parser.add_argument('--model', type=str, default="multi", help='Models to use, must be in multi_noenv, multi, wavespec, wav or spec')
 
     parser.add_argument('--log_dir', type=str, default="/home/pc2752/share/loop_synth/", help='The directory where the models are saved')
 
     parser.add_argument('--val_file', type=str, default="/home/pc2752/share/loop_synth/feats/loop_feats_val.hdf5", help='Path to the file containing validation features')
 
-    parser.add_argument('--output_dir', type=str, default="/home/pc2752/share/drum-loop-synthesis/outputs/", help='Directory to save the outputs in')
+    parser.add_argument('--output_dir', type=str, default="/home/pc2752/share/drum-loop-synthesis/outputs/mix/", help='Directory to save the outputs in')
 
     config = parser.parse_args()
 

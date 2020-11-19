@@ -1,46 +1,11 @@
 import os
-import numpy as np
+
 import argparse
-from scipy import signal
-import math
-
 from model import Model
-
-
-def generate_gaussians(pattern):
-    bar_len = 29538
-    gauss_std =100
-    gauss_window = 1001
-    gauss = signal.gaussian(gauss_window,gauss_std)
-    gauss_patterns = []
-    for inst_pattern in pattern:
-        gauss_pat = np.zeros(bar_len)
-        for idx, val in enumerate(inst_pattern):
-            if val != 0:
-                center_pos = math.floor(idx * bar_len/16)
-                if idx != 0:
-                    left_pos = center_pos - math.ceil(gauss_window)
-                    gauss_pat[left_pos:left_pos + gauss_window] = val * gauss
-                else:
-                    gauss_pat[0:math.ceil(gauss_window/2)] = val * gauss[math.floor(gauss_window/2):]
-        gauss_patterns.append(gauss_pat)
-    return gauss_patterns
 
 def main(config):
     model = Model(config)
-    gen_pattern = [[1,0,0,0,0,0.7,0,0,0,0,0,0], #hh
-     [0,0,1,0,1,1,0,0,0.2,0,1,0], #snare
-     [1,1,1,1,1,1,1,1,1,1,1,1]]
-
-    features_hh = [0.5,0.5,0.5,0.5,0.5,0.9,0.9]
-    features_kick = [0.5,0.1,0.2,0.8,0.5,0.5,0.5]
-    features_snare = [0.5,0.5,0.5,0.5,1,0.5,0.5]
-    hpcp = [0,0,0,0,0,1,1,0,1,0,0,0]
-    pattern = generate_gaussians(gen_pattern)
-    pattern = np.expand_dims(np.array(pattern).T,0)
-    import pdb;pdb.set_trace()
-
-    model.use_model(pattern, hpcp, features_kick, features_hh, features_kick)
+    model.source_separate()
     
         
     
@@ -50,13 +15,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # Model configuration.
-    parser.add_argument('--model', type=str, default="multi_noenv", help='Models to use, must be in multi_env, multi, wavespec, wav or spec')
+    parser.add_argument('--model', type=str, default="multi_noenv", help='Models to use, must be in multi_noenv, multi, wavespec, wav or spec')
 
     parser.add_argument('--log_dir', type=str, default="/home/pc2752/share/loop_synth/", help='The directory where the models are saved')
 
     parser.add_argument('--val_file', type=str, default="/home/pc2752/share/loop_synth/feats/loop_feats_val.hdf5", help='Path to the file containing validation features')
 
-    parser.add_argument('--output_dir', type=str, default="/home/pc2752/share/drum-loop-synthesis/outputs/", help='Directory to save the outputs in')
+    parser.add_argument('--output_dir', type=str, default="/home/pc2752/share/drum-loop-synthesis/outputs/sep/", help='Directory to save the outputs in')
 
     config = parser.parse_args()
 
@@ -112,4 +77,3 @@ if __name__ == '__main__':
     config.dilation_rates = [1,2,4,1,2,4,1,2,4,1,2,4]
 
     main(config)
-
